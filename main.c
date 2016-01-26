@@ -678,6 +678,8 @@ int main(int argc, char *argv[])
   
     //创建窗口  
     main_window = gtk_window_new(GTK_WINDOW_TOPLEVEL); 
+	//保存窗口永远置顶
+	gtk_window_set_keep_above(main_window, TRUE);
 	//设置窗口居中显示
 	gtk_window_set_position(GTK_WINDOW(main_window), GTK_WIN_POS_CENTER);  	
     //设置窗口标题  
