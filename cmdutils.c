@@ -453,7 +453,8 @@ int locate_option(int argc, char **argv, const OptionDef *options,
 
 static void dump_argument(const char *a)
 {
-    const unsigned char *p;
+    //const unsigned char *p;
+	const char *p;
 
     for (p = a; *p; p++)
         if (!((*p >= '+' && *p <= ':') || (*p >= '@' && *p <= 'Z') ||
@@ -1896,7 +1897,7 @@ FILE *get_preset_file(char *filename, size_t filename_size,
             for (ls = datadir; ls < datadir + strlen(datadir); ls++)
                 if (*ls == '\\') *ls = '/';
 
-            if (ls = strrchr(datadir, '/'))
+            if ((ls = strrchr(datadir, '/')))
             {
                 *ls = 0;
                 strncat(datadir, "/ffpresets",  sizeof(datadir) - 1 - strlen(datadir));
