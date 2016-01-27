@@ -1,0 +1,4 @@
+0000000000000000000000000000000000000000 46f49e189edab038a20dcc69f2ddc5a5f4ad1871 U-caolinfeng-PC\caolinfeng <caolinfeng@caolinfeng-PC.(none)> 1453780048 +0800	clone: from https://github.com/LinuxCao/ffmpeg-2.8.4-for-windows.git
+46f49e189edab038a20dcc69f2ddc5a5f4ad1871 ba043be03a57cb453fa35edd9b4f828331ed79fc LinuxCao <527121128@qq.com> 1453781034 +0800	commit: inital change
+ba043be03a57cb453fa35edd9b4f828331ed79fc e332c01c6fa0847b8b10c743b05a473697f0b3bb LinuxCao <527121128@qq.com> 1453781343 +0800	commit: set keep above with gtk_window forever
+e332c01c6fa0847b8b10c743b05a473697f0b3bb 7bd3cf8594afc7c1f01584b16b39fe0f5d039c65 LinuxCao <527121128@qq.com> 1453796980 +0800	commit: clear compiler warnning
