@@ -52,8 +52,8 @@ static GtkWidget *play_button;   //播放暂停按钮
 //static GtkWidget *forward_button; //快进按钮
 //static GtkWidget *fullscreen_button; //全屏按钮
 static GtkWidget *voice_slience_button; //静音按钮
-static GtkObject *video_schedule_adj;//video  schedule adjustment
-static GtkObject *voice_schedule_adj;//voice  schedule adjustment
+static GtkAdjustment *video_schedule_adj;//video  schedule adjustment
+static GtkAdjustment *voice_schedule_adj;//voice  schedule adjustment
 static GdkScreen* gtk_screen;  //gtk screen 
 static gint gtk_screen_width=0;  //gtk screen resolution:width
 static gint gtk_screen_height=0; //gtk screen resolution:heigth
@@ -427,49 +427,51 @@ void toggle_close_button_callback(GtkWidget *widget, gpointer data)
 gboolean on_main_window_key_press_event (GtkWidget *widget,GdkEventKey *event,gpointer user_data)
 {
 	g_print("on_main_window_key_press_event\n"); 
+#if 1
 	SDL_Event sdlevent;
     switch(event->keyval) {
-    case GDK_Up:
-        g_print("Up\n");
+    case GDK_KEY_Up:
+        g_print("GDK_KEY_Up\n");
 		//ffplay forward 
 		sdlevent.type = SDL_KEYDOWN;
 		sdlevent.key.keysym.sym = SDLK_RIGHT;
 		SDL_PushEvent(&sdlevent);
         break;
-    case GDK_Left:
-        g_print("Left\n");
+    case GDK_KEY_Left:
+        g_print("GDK_KEY_Left\n");
 		//ffplay rewind
 		sdlevent.type = SDL_KEYDOWN;
 		sdlevent.key.keysym.sym = SDLK_LEFT;
 		SDL_PushEvent(&sdlevent);
         break;
-    case GDK_Right:
-        g_print("Right\n");
+    case GDK_KEY_Right:
+        g_print("GDK_KEY_Right\n");
 		//ffplay forward
 		sdlevent.type = SDL_KEYDOWN;
 		sdlevent.key.keysym.sym = SDLK_RIGHT;
 		SDL_PushEvent(&sdlevent);
         break;
-    case GDK_Down:
-        g_print("Down\n");
+    case GDK_KEY_Down:
+        g_print("GDK_KEY_Down\n");
 		//ffplay rewind
 		sdlevent.type = SDL_KEYDOWN;
 		sdlevent.key.keysym.sym = SDLK_LEFT;
 		SDL_PushEvent(&sdlevent);
         break;
-	case GDK_Escape:
-		g_print("Esc\n");
+	case GDK_KEY_Escape:
+		g_print("GDK_KEY_Escape\n");
 		//ffplay exit
 		sdlevent.type = FF_QUIT_EVENT;
 		SDL_PushEvent(&sdlevent);
         break;
-	case GDK_space:
-		g_print("GDK_space\n");
+	case GDK_KEY_space:
+		g_print("GDK_KEY_space\n");
         break;
 	default:
 		break;
     }
       return FALSE;
+#endif
 }
 
 /* Destroy window*/  
@@ -531,10 +533,10 @@ GtkWidget *build_gui()
 
     // 创建主 GtkVBOx. 其他所有都在它里面  
     // 0：各个构件高度可能不同，0：构件之间的间距为0像素  
-    main_vbox = gtk_vbox_new(0, 0);  
+    main_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);  
   	
 	// status_controls_hbox :close button
-    status_controls_hbox = gtk_hbox_new(FALSE, 0);  
+    status_controls_hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);  
 	gtk_widget_set_size_request(GTK_WIDGET(status_controls_hbox),-1,STATUS_CONTROLS_HBOX_HEIGHT);
     gtk_box_pack_start(GTK_BOX(main_vbox), status_controls_hbox, FALSE, FALSE, 0);  
 	
@@ -551,7 +553,7 @@ GtkWidget *build_gui()
   
 
 	// play_controls_hbox  
-    play_controls_hbox = gtk_hbox_new(FALSE, 10);  
+    play_controls_hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);  
 	gtk_widget_set_size_request(GTK_WIDGET(play_controls_hbox),-1,PLAY_CONTROLS_HBOX_HEIGHT);
     //gtk_box_pack_start(GTK_BOX(main_vbox), play_controls_hbox, FALSE, FALSE, 0);  
 	gtk_box_pack_end(GTK_BOX(main_vbox), play_controls_hbox, FALSE, FALSE, 0);  
@@ -580,11 +582,12 @@ GtkWidget *build_gui()
 	//video_schedule_adj = gtk_adjustment_new (0.0, 0.0, 101.0, 0.1, 1.0, 1.0);
 	video_schedule_adj = gtk_adjustment_new (0.00, 0.00, 101.00, 0.01, 0.1, 1.0);
 	//video_schedule_adj = gtk_adjustment_new (0, 0, 101, 1, 1, 1);
-	seek_scale = gtk_hscale_new (GTK_ADJUSTMENT (video_schedule_adj));
+	//seek_scale = gtk_hscale_new (GTK_ADJUSTMENT (video_schedule_adj));
+	seek_scale = gtk_scale_new (GTK_ORIENTATION_HORIZONTAL,GTK_ADJUSTMENT (video_schedule_adj));
     gtk_scale_set_draw_value(GTK_SCALE(seek_scale), FALSE); 
 	gtk_scale_set_digits(GTK_SCALE(seek_scale),2);	
     //gtk_range_set_update_policy(GTK_RANGE(seek_scale), GTK_UPDATE_DISCONTINUOUS);  
-	gtk_range_set_update_policy(GTK_RANGE(seek_scale), GTK_UPDATE_CONTINUOUS);  
+	//gtk_range_set_update_policy(GTK_RANGE(seek_scale), GTK_UPDATE_CONTINUOUS);  
 	gtk_scale_set_value_pos (GTK_SCALE(seek_scale), GTK_POS_LEFT);
 	gtk_range_set_adjustment(GTK_RANGE(seek_scale),GTK_ADJUSTMENT(video_schedule_adj));
     g_signal_connect(G_OBJECT(seek_scale), "value-changed", G_CALLBACK(video_seek_value_changed), NULL);  
@@ -613,11 +616,12 @@ GtkWidget *build_gui()
 	/* 注意，page_size值只对滚动条构件有区别，并且，你实际上能取得的最高值是(upper - page_size)。 */
 	/*音量的可调整范围是0-128*/
 	voice_schedule_adj = gtk_adjustment_new (128, 0, 129, 1, 1, 1);
-	voice_scale = gtk_hscale_new (GTK_ADJUSTMENT (voice_schedule_adj));
+	//voice_scale = gtk_hscale_new (GTK_ADJUSTMENT (voice_schedule_adj));
+	voice_scale = gtk_scale_new (GTK_ORIENTATION_HORIZONTAL,GTK_ADJUSTMENT (voice_schedule_adj));
 	gtk_widget_set_size_request (GTK_WIDGET(voice_scale),129,-1);
     gtk_scale_set_draw_value(GTK_SCALE(voice_scale), FALSE);  
 	gtk_scale_set_digits(GTK_SCALE(voice_scale),0);
-    gtk_range_set_update_policy(GTK_RANGE(voice_scale), GTK_UPDATE_CONTINUOUS);  
+    //gtk_range_set_update_policy(GTK_RANGE(voice_scale), GTK_UPDATE_CONTINUOUS);  
 	gtk_scale_set_value_pos (GTK_SCALE(voice_scale), GTK_POS_LEFT);
 	gtk_range_set_adjustment(GTK_RANGE(voice_scale),GTK_ADJUSTMENT(voice_schedule_adj));
     g_signal_connect(G_OBJECT(voice_scale), "value-changed", G_CALLBACK(voice_seek_value_changed), NULL);  
@@ -716,7 +720,7 @@ int main(int argc, char *argv[])
     gtk_window_add_accel_group(GTK_WINDOW(main_window), play_button_accelerate);
 	//快捷键注册，其实就是当快捷键按下的时候，为控件触发一个信号
 	//(GdkModifierType)0为不使用修饰键
-	gtk_widget_add_accelerator(play_button,"clicked",play_button_accelerate,GDK_space,(GdkModifierType)0,GTK_ACCEL_VISIBLE);
+	gtk_widget_add_accelerator(play_button,"clicked",play_button_accelerate,GDK_KEY_space,(GdkModifierType)0,GTK_ACCEL_VISIBLE);
 
     //显示  
     gtk_widget_show_all(GTK_WIDGET(main_window));   
@@ -739,8 +743,8 @@ int main(int argc, char *argv[])
 	//在GtkWidget没有show出来之前是没有XID（window ID）的。
 	char SDL_windowhack[32];
 	//获取GTK视频显示窗口ID,并格式化字符串SDL_windowhack 
-	sprintf(SDL_windowhack, "SDL_WINDOWID=%ld", GDK_WINDOW_XID(video_output->window));
-	g_print("SDL_WINDOWID:=0x%1x\n",(unsigned int)GDK_WINDOW_XID(video_output->window)); 
+	sprintf(SDL_windowhack, "SDL_WINDOWID=%ld", GDK_WINDOW_XID(gtk_widget_get_window(video_output)));
+	g_print("SDL_WINDOWID:=0x%1x\n",(unsigned int)GDK_WINDOW_XID(gtk_widget_get_window(video_output))); 
 	//设置SDL显示窗口环境变量
 	putenv(SDL_windowhack);
 #else
@@ -748,8 +752,8 @@ int main(int argc, char *argv[])
 	//在GtkWidget没有show出来之前是没有XID（window ID）的。
 	char SDL_windowhack[32];
 	//获取GTK视频显示窗口ID,并格式化字符串SDL_windowhack 
-	sprintf(SDL_windowhack, "SDL_WINDOWID=%ld", (long int)GDK_WINDOW_HWND(video_output->window));
-	g_print("SDL_WINDOWID:=0x%1x\n",(unsigned int)GDK_WINDOW_HWND(video_output->window)); 
+	sprintf(SDL_windowhack, "SDL_WINDOWID=%ld", (long int)GDK_WINDOW_HWND(gtk_widget_get_window(video_output)));
+	g_print("SDL_WINDOWID:=0x%1x\n",(unsigned int)GDK_WINDOW_HWND(gtk_widget_get_window(video_output))); 
 	//设置SDL显示窗口环境变量
 	putenv(SDL_windowhack);
 	
