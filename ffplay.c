@@ -3290,7 +3290,7 @@ static void event_loop(VideoState *cur_stream)
                     if (cur_stream->ic->start_time != AV_NOPTS_VALUE)
                         ts += cur_stream->ic->start_time;
 					//printf("ts=%ld\n",ts);
-                    stream_seek(cur_stream, ts, 0, 0);
+                    //stream_seek(cur_stream, ts, 0, 0);
                 }
             break;
         case SDL_VIDEORESIZE:
