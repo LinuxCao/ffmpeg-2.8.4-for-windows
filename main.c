@@ -461,7 +461,8 @@ gboolean on_main_window_key_press_event (GtkWidget *widget,GdkEventKey *event,gp
 	case GDK_KEY_Escape:
 		g_print("GDK_KEY_Escape\n");
 		//ffplay exit
-		sdlevent.type = FF_QUIT_EVENT;
+		sdlevent.type = SDL_KEYDOWN;
+		sdlevent.key.keysym.sym = SDLK_ESCAPE;
 		SDL_PushEvent(&sdlevent);
         break;
 	case GDK_KEY_space:
