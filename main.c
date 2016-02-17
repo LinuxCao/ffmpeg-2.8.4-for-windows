@@ -69,6 +69,7 @@ pthread_t playeropen_msg_process_thread_tid; 				//视频消息处理线程
 gboolean seek_flag = FALSE;  
 gboolean play_button_status = FALSE;  //播放暂停标志位：1-播放 0-暂停 
 gboolean voice_slience_button_status = FALSE;  //声音和静音标志位：1-声音 0-静音 
+gboolean current_active_window_status = TRUE;  //默认是主窗口激活:1-主窗口激活 0-子窗口video_output激活.键盘按键事件只会发给激活的窗口.
 
 // initialize play_controls_hbox、 status_controls_hbox and video_output'size 
 gint play_controls_hbox_width=0, play_controls_hbox_height=0;
@@ -113,6 +114,18 @@ gboolean get_voice_slience_button_status()
 void set_voice_slience_button_status(gboolean value)
 {
 	voice_slience_button_status = value;
+}
+
+//Get current_active_window_status
+gboolean get_current_active_window_status()
+{
+	return current_active_window_status;
+}
+
+//Set current_active_window_status
+void set_current_active_window_status(gboolean value)
+{
+	current_active_window_status = value;
 }
 
 
@@ -193,6 +206,17 @@ gboolean update_time_callback()
 	cur_stream=get_videostate_for_gtk();
 	//printf("cur_stream=0x%1x\n",cur_stream);
 	//printf("cur_stream->ic=0x%1x\n",cur_stream->ic);
+
+	if(gtk_window_is_active (GTK_WINDOW(main_window)) == TRUE)
+	{
+		//printf("gtk_window_is_active (GTK_WINDOW(main_window)) == TRUE\n");
+		set_current_active_window_status(TRUE);
+	}
+	else
+	{
+		//printf("gtk_window_is_active (GTK_WINDOW(main_window)) == FALSE\n");
+		set_current_active_window_status(FALSE);
+	}
 	
 	if((cur_stream != NULL) && (cur_stream->ic != NULL))
 	{
@@ -299,7 +323,29 @@ void voice_seek_value_changed(GtkRange *range, gpointer data)
 		gtk_widget_show(voice_slience_button);
 	}
 }  
+/* Play callback function */   
+void toggle_play_button_callback_by_sdl()
+{
+	g_print("toggle_play_button_callback_by_sdl\n"); 
+	//使用指定图标创建按钮图像
+	GtkWidget* img_play= gtk_image_new_from_file("./play.png");
+	//动态设置按钮的图像
+	gtk_button_set_image(GTK_BUTTON(play_button),img_play);	
+	
+}	
 
+/* Pause callback function */   
+void toggle_pause_button_callback_by_sdl()
+{
+	g_print("toggle_pause_button_callback_by_sdl\n"); 
+	//使用指定图标创建按钮图像
+	GtkWidget* img_pause= gtk_image_new_from_file("./pause.png");
+	//动态设置按钮的图像
+	gtk_button_set_image(GTK_BUTTON(play_button),img_pause);
+	
+}
+
+#if 1
 /* Play or pause callback function */   
 void toggle_play_pause_button_callback (GtkWidget *widget, gpointer data)
 {
@@ -353,7 +399,7 @@ void toggle_play_pause_button_callback (GtkWidget *widget, gpointer data)
 		g_print("please choose open video file.\n"); 
 	}
 }	
-
+#endif
 /* voice or slience callback function */  
 void toggle_voice_slience_button_callback (GtkWidget *widget, gpointer data)
 {

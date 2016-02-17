@@ -90,4 +90,16 @@ int get_video_output_height();
 //Set video_output_height
 void set_video_output_height(int value);
 
+//Get current_active_window_status
+gboolean get_current_active_window_status();
+
+//Set current_active_window_status
+void set_current_active_window_status(gboolean value);
+
+/* Play callback function */   
+void toggle_play_button_callback_by_sdl();
+
+/* Pause callback function */   
+void toggle_pause_button_callback_by_sdl();
+
 #endif 
