@@ -327,10 +327,24 @@ void voice_seek_value_changed(GtkRange *range, gpointer data)
 void toggle_play_button_callback_by_sdl()
 {
 	g_print("toggle_play_button_callback_by_sdl\n"); 
+	//printf("play_button=0x%1x\n",play_button);
 	//使用指定图标创建按钮图像
 	GtkWidget* img_play= gtk_image_new_from_file("./play.png");
+	//增加图片对象的引用计数。 
+	g_object_ref(img_play);
 	//动态设置按钮的图像
-	gtk_button_set_image(GTK_BUTTON(play_button),img_play);	
+	if (NULL == img_play)
+	{
+		/* Print out the error. You can use GLib's message logging  */
+		fprintf(stderr, "Unable to get gtk_image_new_from_file\n");
+		/* Your error handling code goes here */
+	}
+	else
+	{
+		//动态设置按钮的图像
+		gtk_button_set_image(GTK_BUTTON(play_button),img_play);	
+	}
+
 	
 }	
 
@@ -338,14 +352,26 @@ void toggle_play_button_callback_by_sdl()
 void toggle_pause_button_callback_by_sdl()
 {
 	g_print("toggle_pause_button_callback_by_sdl\n"); 
+	//printf("play_button=0x%1x\n",play_button);
 	//使用指定图标创建按钮图像
 	GtkWidget* img_pause= gtk_image_new_from_file("./pause.png");
+	//增加图片对象的引用计数。
+	g_object_ref(img_pause);
 	//动态设置按钮的图像
-	gtk_button_set_image(GTK_BUTTON(play_button),img_pause);
-	
+	if (NULL == img_pause)
+	{
+		/* Print out the error. You can use GLib's message logging  */
+		fprintf(stderr, "Unable to get gtk_image_new_from_file\n");
+		/* Your error handling code goes here */
+	}
+	else
+	{
+		//动态设置按钮的图像
+		gtk_button_set_image(GTK_BUTTON(play_button),img_pause);	
+	}	
 }
 
-#if 1
+#if 0
 /* Play or pause callback function */   
 void toggle_play_pause_button_callback (GtkWidget *widget, gpointer data)
 {
@@ -393,6 +419,77 @@ void toggle_play_pause_button_callback (GtkWidget *widget, gpointer data)
 			
 
 		}
+	}
+	else
+	{
+		g_print("please choose open video file.\n"); 
+	}
+}	
+#else
+/* Play or pause callback function */   
+void toggle_play_pause_button_callback (GtkWidget *widget, gpointer data)
+{
+	g_print("toggle_play_pause_button_callback\n"); 
+	//printf("play_button=0x%1x\n",play_button);
+	VideoState* cur_stream;
+	cur_stream=get_videostate_for_gtk();
+	
+	if(current_filename)
+	{
+		if(get_current_active_window_status() == TRUE) //GTK 主窗口接收按键信息
+		{
+			if (get_play_button_status()==TRUE)//play
+			{
+				
+				g_print("GTK_STOCK_MEDIA_PLAY\n");   
+				//使用指定图标创建按钮图像
+				GtkWidget* img_play= gtk_image_new_from_file("./play.png");
+				//动态设置按钮的图像
+				gtk_button_set_image(GTK_BUTTON(play_button),img_play);			
+			
+				
+				//ffplay pause
+				SDL_Event sdlevent;
+				sdlevent.type = SDL_KEYDOWN;
+				sdlevent.key.keysym.sym = SDLK_SPACE;
+				SDL_PushEvent(&sdlevent);
+				
+				//此刻为播放状态，故设置为暂停的标志位，等待下次点击就是暂停处理
+				set_play_button_status(FALSE);
+				
+				
+			} 
+			else //pause
+			{
+				g_print("GTK_STOCK_MEDIA_PAUSE\n");   
+				//使用指定图标创建按钮图像
+				GtkWidget* img_pause= gtk_image_new_from_file("./pause.png");
+				//动态设置按钮的图像
+				gtk_button_set_image(GTK_BUTTON(play_button),img_pause);
+		
+
+				//ffplay play
+				SDL_Event sdlevent;
+				sdlevent.type = SDL_KEYDOWN;
+				sdlevent.key.keysym.sym = SDLK_SPACE;
+				SDL_PushEvent(&sdlevent);
+				
+				//此刻为暂停状态，故设置为播放的标志位，等待下次点击就是播放处理
+				set_play_button_status(TRUE);
+				
+
+			}
+		}
+		else //SDL 窗口接收按键信息
+		{
+			g_print("toggle_pause\n"); 
+			if(cur_stream != NULL)
+			{
+				toggle_pause(cur_stream);
+			}
+	
+		}
+		
 	}
 	else
 	{

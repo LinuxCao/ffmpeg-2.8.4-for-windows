@@ -102,4 +102,7 @@ void toggle_play_button_callback_by_sdl();
 /* Pause callback function */   
 void toggle_pause_button_callback_by_sdl();
 
+/* Play or pause callback function */   
+void toggle_play_pause_button_callback (GtkWidget *widget, gpointer data);
+
 #endif 

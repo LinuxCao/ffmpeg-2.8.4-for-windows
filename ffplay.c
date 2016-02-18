@@ -3173,6 +3173,7 @@ static void event_loop(VideoState *cur_stream)
             case SDLK_p:
             case SDLK_SPACE:
 			    printf("SDLK_SPACE\n");
+				printf("toggle_pause\n");
                 toggle_pause(cur_stream);
                 break;
             case SDLK_s: // S: Step to next frame
