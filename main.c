@@ -71,6 +71,8 @@ gboolean play_button_status = FALSE;  //播放暂停标志位：1-播放 0-暂�
 gboolean voice_slience_button_status = FALSE;  //声音和静音标志位：1-声音 0-静音 
 gboolean current_active_window_status = TRUE;  //默认是主窗口激活:1-主窗口激活 0-子窗口video_output激活.键盘按键事件只会发给激活的窗口.
 
+gboolean current_video_status = TRUE;  //默认是播放的状态：1-播放 0-暂停
+
 // initialize play_controls_hbox、 status_controls_hbox and video_output'size 
 gint play_controls_hbox_width=0, play_controls_hbox_height=0;
 gint status_controls_hbox_width=0, status_controls_hbox_height=0;
@@ -128,6 +130,17 @@ void set_current_active_window_status(gboolean value)
 	current_active_window_status = value;
 }
 
+//Get current_video_status
+gboolean get_current_video_status()
+{
+	return current_video_status;
+}
+
+//Set current_video_status
+void set_current_video_status(gboolean value)
+{
+	current_video_status = value;
+}
 
 
  /* Start playing video*/  
@@ -228,6 +241,17 @@ gboolean update_time_callback()
 		//printf("cur_stream=0x%1x\n",cur_stream);
 		//printf("cur_stream->ic=0x%1x\n",cur_stream->ic);
 		
+		if(get_current_video_status()==TRUE)
+		{
+			printf("get_current_video_status()==TRUE\n");
+			toggle_play_button_callback_by_sdl();
+		}
+		else
+		{
+			printf("get_current_video_status()==FALSE\n");
+			toggle_pause_button_callback_by_sdl();
+		}
+
 		//获取总的播放时间
 		tns  = cur_stream->ic->duration / 1000000LL;
 		thh  = tns / 3600;
@@ -371,58 +395,17 @@ void toggle_pause_button_callback_by_sdl()
 	}	
 }
 
-#if 0
+#if 1
 /* Play or pause callback function */   
 void toggle_play_pause_button_callback (GtkWidget *widget, gpointer data)
 {
 	g_print("toggle_play_pause_button_callback\n"); 
-	if(current_filename)
+	g_print("toggle_pause\n"); 
+	VideoState* cur_stream;
+	cur_stream=get_videostate_for_gtk();
+	if(cur_stream != NULL)
 	{
-		if (get_play_button_status()==TRUE)//play
-		{
-			
-			g_print("GTK_STOCK_MEDIA_PLAY\n");   
-			//使用指定图标创建按钮图像
-			GtkWidget* img_play= gtk_image_new_from_file("./play.png");
-			//动态设置按钮的图像
-			gtk_button_set_image(GTK_BUTTON(play_button),img_play);			
-		
-			
-			//ffplay pause
-			SDL_Event sdlevent;
-			sdlevent.type = SDL_KEYDOWN;
-			sdlevent.key.keysym.sym = SDLK_SPACE;
-			SDL_PushEvent(&sdlevent);
-			
-			//此刻为播放状态，故设置为暂停的标志位，等待下次点击就是暂停处理
-			set_play_button_status(FALSE);
-			
-			
-		} 
-		else //pause
-		{
-			g_print("GTK_STOCK_MEDIA_PAUSE\n");   
-			//使用指定图标创建按钮图像
-			GtkWidget* img_pause= gtk_image_new_from_file("./pause.png");
-			//动态设置按钮的图像
-			gtk_button_set_image(GTK_BUTTON(play_button),img_pause);
-	
-
-			//ffplay play
-			SDL_Event sdlevent;
-			sdlevent.type = SDL_KEYDOWN;
-			sdlevent.key.keysym.sym = SDLK_SPACE;
-			SDL_PushEvent(&sdlevent);
-			
-			//此刻为暂停状态，故设置为播放的标志位，等待下次点击就是播放处理
-			set_play_button_status(TRUE);
-			
-
-		}
-	}
-	else
-	{
-		g_print("please choose open video file.\n"); 
+		toggle_pause(cur_stream);
 	}
 }	
 #else
@@ -663,7 +646,7 @@ gboolean load_file(gchar *uri)
 	* update the GUI with the playback progress. We remember 
 	* the ID of this source so that we can remove it when we stop 
 	* playing */  
-	timeout_source = g_timeout_add(500, (GSourceFunc)update_time_callback, NULL);  
+	timeout_source = g_timeout_add(125, (GSourceFunc)update_time_callback, NULL);  
 		
 	//显示  
     gtk_widget_show_all(GTK_WIDGET(main_window));   

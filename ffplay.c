@@ -1174,20 +1174,15 @@ static void stream_toggle_pause(VideoState *is)
         }
         set_clock(&is->vidclk, get_clock(&is->vidclk), is->vidclk.serial);
 		printf("play\n");
-		//video_output window is active status
-		if(get_current_active_window_status() == FALSE)
-		{
-			toggle_play_button_callback_by_sdl();
-		}
+		//play
+		set_current_video_status(TRUE);
     }
 	else
 	{
 		printf("pause\n");
-		//video_output window is active status
-		if(get_current_active_window_status() == FALSE)
-		{
-			toggle_pause_button_callback_by_sdl();
-		}
+		//play
+		set_current_video_status(FALSE);
+
 	}
     set_clock(&is->extclk, get_clock(&is->extclk), is->extclk.serial);
     is->paused = is->audclk.paused = is->vidclk.paused = is->extclk.paused = !is->paused;

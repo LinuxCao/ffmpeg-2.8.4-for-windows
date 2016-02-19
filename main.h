@@ -105,4 +105,9 @@ void toggle_pause_button_callback_by_sdl();
 /* Play or pause callback function */   
 void toggle_play_pause_button_callback (GtkWidget *widget, gpointer data);
 
+//Get current_video_status
+gboolean get_current_video_status();
+//Set current_video_status
+void set_current_video_status(gboolean value);
+
 #endif 
