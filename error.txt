@@ -1,0 +1,31 @@
+ffplay_init
+ffplay version 2.8.4 Copyright (c) 2003-2015 the FFmpeg developers
+  built with gcc 5.3.0 (Rev1, Built by MSYS2 project)
+  configuration: --enable-shared --disable-yasm --prefix=/usr/local/ffmpeg --disable-dxva2
+  libavutil      54. 31.100 / 54. 31.100
+  libavcodec     56. 60.100 / 56. 60.100
+  libavformat    56. 40.101 / 56. 40.101
+  libavdevice    56.  4.100 / 56.  4.100
+  libavfilter     5. 40.101 /  5. 40.101
+  libswscale      3.  1.101 /  3.  1.101
+  libswresample   1.  2.101 /  1.  2.101
+    nan    :  0.000 fd=   0 aq=    0KB vq=    0KB sq=    0B f=0/0   Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '../media/video/X时代4：灵魂尽头.HD1280超清国语中英双字.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 1
+    compatible_brands: isomavc1
+    creation_time   : 2015-07-28 14:36:53
+  Duration: 01:56:10.50, start: 0.000000, bitrate: 2606 kb/s
+    Stream #0:0(und): Video: h264 (High) (avc1 / 0x31637661), yuv420p, 1280x534 [SAR 1:1 DAR 640:267], 2474 kb/s, 24 fps, 24 tbr, 24k tbn, 48 tbc (default)
+    Metadata:
+      creation_time   : 2015-07-28 14:36:53
+      handler_name    : GPAC ISO Video Handler
+    Stream #0:1(und): Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 128 kb/s (default)
+    Metadata:
+      creation_time   : 2015-07-28 14:38:47
+      handler_name    : GPAC ISO Audio Handler
+SDL_OpenAudio (2 channels, 44100 Hz): DirectSoundCreate: No audio device found
+SDL_OpenAudio (1 channels, 44100 Hz): DirectSoundCreate: No audio device found
+No more combinations to try, audio open failed
+    nan M-V:    nan fd=   0 aq=    0KB vq=  151KB sq=    0B f=0/0   fs_screen_width=1920,fs_screen_height=1080,default_width=1920,default_height=1080, screen->w=1920, screen->h=1080
+   0.09 M-V: -0.000 fd=   0 aq=    0KB vq=  130KB sq=    0B f=0/0      0.13 M-V: -0.000 fd=   0 aq=    0KB vq=  110KB sq=    0B f=0/0      0.17 M-V: -0.000 fd=   0 aq=    0KB vq=  110KB sq=    0B f=0/0      0.21 M-V: -0.000 fd=   0 aq=    0KB vq=   99KB sq=    0B f=0/0      0.26 M-V: -0.000 fd=   0 aq=    0KB vq=   92KB sq=    0B f=0/0      0.30 M-V: -0.000 fd=   0 aq=    0KB vq=   87KB sq=    0B f=0/0      0.34 M-V: -0.000 fd=   0 aq=    0KB vq=   89KB sq=    0B f=0/0      0.38 M-V: -0.000 fd=   0 aq=    0KB vq=   87KB sq=    0B f=0/0      0.42 M-V: -0.000 fd=   0 aq=    0KB vq=   96KB sq=    0B f=0/0      0.47 M-V:  0.001 fd=   0 aq=    0KB vq=   98KB sq=    0B f=0/0      0.51 M-V: -0.000 fd=   0 aq=    0KB vq=   98KB sq=    0B f=0/0      0.55 M-V: -0.000 fd=   0 aq=    0KB vq=   99KB sq=    0B f=0/0      0.59 M-V: -0.000 fd=   0 aq=    0KB vq=  108KB sq=    0B f=0/0      0.63 M-V: -0.000 fd=   0 aq=    0KB vq=  107KB sq=    0B f=0/0      0.67 M-V: -0.000 fd=   0 aq=    0KB vq=  118KB sq=    0B f=0/0      0.71 M-V: -0.000 fd=   0 aq=    0KB vq=  124KB sq=    0B f=0/0      0.76 M-V: -0.000 fd=   0 aq=    0KB vq=  127KB sq=    0B f=0/0      0.80 M-V: -0.000 fd=   0 aq=    0KB vq=  127KB sq=    0B f=0/0      0.84 M-V: -0.000 fd=   0 aq=    0KB vq=  129KB sq=    0B f=0/0      0.88 M-V: -0.000 fd=   0 aq=    0KB vq=  134KB sq=    0B f=0/0      0.92 M-V: -0.000 fd=   0 aq=    0KB vq=  142KB sq=    0B f=0/0      0.96 M-V:  0.000 fd=   0 aq=    0KB vq=  139KB sq=    0B f=0/0      1.00 M-V:  0.000 fd=   0 aq=    0KB vq=  145KB sq=    0B f=0/0      1.05 M-V: -0.000 fd=   0 aq=    0KB vq=  178KB sq=    0B f=0/0      1.09 M-V: -0.000 fd=   0 aq=    0KB vq=  174KB sq=    0B f=0/0      1.13 M-V:  0.000 fd=   0 aq=    0KB vq=  189KB sq=    0B f=0/0      1.17 M-V: -0.000 fd=   0 aq=    0KB vq=  204KB sq=    0B f=0/0      1.21 M-V: -0.000 fd=   0 aq=    0KB vq=  218KB sq=    0B f=0/0   

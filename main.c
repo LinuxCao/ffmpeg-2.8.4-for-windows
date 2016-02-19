@@ -846,7 +846,9 @@ int main(int argc, char *argv[])
 	gtk_window_set_default_size(GTK_WINDOW(main_window), gtk_screen_width, gtk_screen_height); 
 	
 	/* hide the title bar and the boder */ 
-	gtk_window_set_decorated(GTK_WINDOW(main_window), FALSE); 	
+	//gtk_window_set_decorated(GTK_WINDOW(main_window), FALSE); 	
+		
+
 	
 	
 	/* 你应该总是记住连接 delete_event 信号到主窗口。这对适当的直觉行为很重要 */
@@ -865,6 +867,9 @@ int main(int argc, char *argv[])
 	//快捷键注册，其实就是当快捷键按下的时候，为控件触发一个信号
 	//(GdkModifierType)0为不使用修饰键
 	gtk_widget_add_accelerator(play_button,"clicked",play_button_accelerate,GDK_KEY_space,(GdkModifierType)0,GTK_ACCEL_VISIBLE);
+	
+	//main_window fullscreen 
+	gtk_window_fullscreen(GTK_WINDOW(main_window));
 
     //显示  
     gtk_widget_show_all(GTK_WIDGET(main_window));   
