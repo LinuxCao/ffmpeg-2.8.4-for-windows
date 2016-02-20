@@ -243,12 +243,12 @@ gboolean update_time_callback()
 		
 		if(get_current_video_status()==TRUE)
 		{
-			printf("get_current_video_status()==TRUE\n");
+			//printf("get_current_video_status()==TRUE\n");
 			toggle_play_button_callback_by_sdl();
 		}
 		else
 		{
-			printf("get_current_video_status()==FALSE\n");
+			//printf("get_current_video_status()==FALSE\n");
 			toggle_pause_button_callback_by_sdl();
 		}
 
@@ -350,7 +350,7 @@ void voice_seek_value_changed(GtkRange *range, gpointer data)
 /* Play callback function */   
 void toggle_play_button_callback_by_sdl()
 {
-	g_print("toggle_play_button_callback_by_sdl\n"); 
+	//g_print("toggle_play_button_callback_by_sdl\n"); 
 	//printf("play_button=0x%1x\n",play_button);
 	//使用指定图标创建按钮图像
 	GtkWidget* img_play= gtk_image_new_from_file("./play.png");
@@ -375,7 +375,7 @@ void toggle_play_button_callback_by_sdl()
 /* Pause callback function */   
 void toggle_pause_button_callback_by_sdl()
 {
-	g_print("toggle_pause_button_callback_by_sdl\n"); 
+	//g_print("toggle_pause_button_callback_by_sdl\n"); 
 	//printf("play_button=0x%1x\n",play_button);
 	//使用指定图标创建按钮图像
 	GtkWidget* img_pause= gtk_image_new_from_file("./pause.png");

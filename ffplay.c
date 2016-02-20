@@ -2984,7 +2984,7 @@ fail:
     }
     return is;
 }
-
+#if 0
 static void stream_cycle_channel(VideoState *is, int codec_type)
 {
     AVFormatContext *ic = is->ic;
@@ -3062,8 +3062,8 @@ static void stream_cycle_channel(VideoState *is, int codec_type)
     stream_component_close(is, old_index);
     stream_component_open(is, stream_index);
 }
-
-
+#endif
+#if 0
 static void toggle_full_screen(VideoState *is)
 {
 #if defined(__APPLE__) && SDL_VERSION_ATLEAST(1, 2, 14)
@@ -3075,7 +3075,7 @@ static void toggle_full_screen(VideoState *is)
     is_full_screen = !is_full_screen;
     video_open(is, 1, NULL);
 }
-
+#endif
 static void toggle_audio_display(VideoState *is)
 {
     int bgcolor = SDL_MapRGB(screen->format, 0x00, 0x00, 0x00);
@@ -3156,39 +3156,50 @@ static void event_loop(VideoState *cur_stream)
             }
             switch (event.key.keysym.sym) {
             case SDLK_ESCAPE:
-            case SDLK_q:
+            //case SDLK_q:
 				printf("SDLK_ESCAPE\n");
                 do_exit(cur_stream);
                 break;
+#if 0
             case SDLK_f:
 			    printf("SDLK_f\n");
                 toggle_full_screen(cur_stream);
                 cur_stream->force_refresh = 1;
                 break;
-            case SDLK_p:
+#endif
+            //case SDLK_p:
             case SDLK_SPACE:
 			    printf("SDLK_SPACE\n");
 				printf("toggle_pause\n");
                 toggle_pause(cur_stream);
                 break;
+#if 0
             case SDLK_s: // S: Step to next frame
+				printf("SDLK_s\n");
                 step_to_next_frame(cur_stream);
                 break;
+
             case SDLK_a:
+				printf("SDLK_a\n");
                 stream_cycle_channel(cur_stream, AVMEDIA_TYPE_AUDIO);
                 break;
             case SDLK_v:
+				printf("SDLK_v\n");
                 stream_cycle_channel(cur_stream, AVMEDIA_TYPE_VIDEO);
                 break;
             case SDLK_c:
+				printf("SDLK_c\n");
                 stream_cycle_channel(cur_stream, AVMEDIA_TYPE_VIDEO);
                 stream_cycle_channel(cur_stream, AVMEDIA_TYPE_AUDIO);
                 stream_cycle_channel(cur_stream, AVMEDIA_TYPE_SUBTITLE);
                 break;
             case SDLK_t:
+				printf("SDLK_t\n");
                 stream_cycle_channel(cur_stream, AVMEDIA_TYPE_SUBTITLE);
                 break;
+#endif
             case SDLK_w:
+				printf("SDLK_w\n");
 #if CONFIG_AVFILTER
                 if (cur_stream->show_mode == SHOW_MODE_VIDEO && cur_stream->vfilter_idx < nb_vfilters - 1) {
                     if (++cur_stream->vfilter_idx >= nb_vfilters)
@@ -3201,6 +3212,7 @@ static void event_loop(VideoState *cur_stream)
                 toggle_audio_display(cur_stream);
 #endif
                 break;
+
             case SDLK_PAGEUP:
                 if (cur_stream->ic->nb_chapters <= 1) {
                     incr = 600.0;
